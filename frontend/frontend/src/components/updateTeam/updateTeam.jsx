@@ -1,29 +1,29 @@
-export default () => {
+import './updateTeam.css'
+
+const UpdateTeam = () => {
     return (
         <>
             <h4>Update Team</h4>
 
-            <div ngIf="showMessage">
-
-                <ng-container ngIf="isTeamUpdated; else errorTemplate"
-                    className="d-flex row justify-content-around text-success border border-success">
-
-                    <div ngIf="teamid" className="d-flex row justify-content-around text-success border border-success">
-                        <div className="col-11">Updated Team Successfully The team id is {{ teamid }}</div>
-                        <div className="col-1"><button className="bg-dark text-success border-0"
-                            click="showMessage = !showMessage">&times;</button></div>
-                    </div>
-                </ng-container>
-
-                <ng-template #errorTemplate>
-                    <div className="d-flex row justify-content-around text-danger border border-danger">
-                        <div className="col-11">Something went wrong!</div>
-                        <div className="col-1"><button className="bg-dark text-danger border-0"
-                            click="showMessage = !showMessage">&times;</button></div>
-                    </div>
-                </ng-template>
-
-            </div>
+            {showMessage && (
+                <div>
+                    {isTeamUpdated ? (
+                        <div className="d-flex row justify-content-around text-success border border-success">
+                            <div ngIf="teamid" className="d-flex row justify-content-around text-success border border-success">
+                                <div className="col-11">Updated Team Successfully The team id is </div>
+                                <div className="col-1"><button className="bg-dark text-success border-0"
+                                    click="showMessage = !showMessage">&times</button></div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="d-flex row justify-content-around text-danger border border-danger">
+                            <div className="col-11">Something went wrong!</div>
+                            <div className="col-1"><button className="bg-dark text-danger border-0"
+                                click="showMessage = !showMessage">&times;</button></div>
+                        </div>
+                    )}
+                </div>
+            )}
 
             <form formGroup="updateTeamFormGroup" ngSubmit="onSubmit">
 
@@ -75,3 +75,5 @@ export default () => {
         </>
     )
 }
+
+export default UpdateTeam;
