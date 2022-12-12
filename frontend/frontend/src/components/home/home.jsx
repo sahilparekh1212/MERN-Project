@@ -1,81 +1,62 @@
-import { useEffect } from 'react';
+// import {  } from 'react';
 import { useState } from 'react';
 import './home.css';
 
-function Home() {
+function Home({teamsInput,teamDeleted,keepFirstTeam}) {
 
-    const [data,setData]=useState({});
-
-    useEffect({
-        // getTeams();
-        setData();
-    },[data]);
-
-
-    function ngOnInit() {
-        this.getTeams();
-    }
-
-    function getTeams() {
-        this.teamService.getTeams().subscribe((res) => {
-            if (res) {
-                this.teams = res;
-                // this.teamService.teams = res;
-            } else {
-                console.log('Something went wrong -> getTeams() -> res=', res);
-            }
-        },
-            (error) => {
-                console.log('Error Occured -> getTeams() -> error=', error);
-            });
-    }
+    const [teams, setTeams] = useState(teamsInput);
 
     function updateTeam(id) {
-        this.router.navigate(['updateTeam', id]);
+        // this.router.navigate(['updateTeam', id]);
+        alert(`updateTeam > ${id}`);
     }
 
-    function deleteTeam(id) {
-        this.teamService.deleteTeam(id).subscribe((res) => {
-            if (res) {
-                this.teams = this.teams.filter((team) => {
-                    return team.id != id;
-                });
-            } else {
-                console.log('Something went wrong -> deleteTeam() -> res=', res);
-            }
-        },
-            (error) => {
-                console.log('Error Occured -> deleteTeam() -> error=', error);
-            });
+    async function deleteTeam(id) {
+        alert(`deleteTeam > ${id}`);
+        teamDeleted(id);
+    //     try{
+    //     const deletedTeam = await fetch('URL');
+    //     const deletedTeamJSON = await deletedTeam.json();
+
+    //     if (deletedTeamJSON.id) {
+    //         setTeams((teams.filter((item) => { return item.id !== deletedTeam.id })));
+    //     } else {
+    //         console.log('Something went wrong -> deleteTeam() -> deletedTeam=', deletedTeam);
+    //     }
+    // }catch(e){
+    //     console.log('Something went wrong -> deleteTeam() -> e=', e);
+    // }
     }
 
     function keepFirst() {
-        let teamsToBeKept = 1;
-        this.teamService.keepFirst(teamsToBeKept).subscribe((res) => {
-            if (res) {
-                let idArr = [];
+        alert('reset > keepFirst');
+        keepFirstTeam();
+    //     try{
+    //     const deletedTeams = await fetch('URL');
+    //     const deletedTeamsJSON = await deletedTeams.json();
 
-                res.forEach((res) => {
-                    idArr.push(res.id);
-                });
+    //     if (deletedTeamsJSON) {
+    //         let idArr = [];
 
-                this.teams = this.teams.filter((team) => {
-                    return !idArr.includes(team.id);
-                });
+    //         deletedTeamsJSON.forEach((res) => {
+    //             idArr.push(res.id);
+    //         });
 
-            } else {
-                console.log('Something went wrong -> keepFirstX() -> res=', res);
-            }
-        },
-            (error) => {
-                console.log('Error Occured -> keepFirstX() -> error=', error);
-            });
+    //         setTeams(teams.filter((team) => {
+    //             return !idArr.includes(team.id);
+    //         }));
+
+    //     } else {
+    //         console.log('Something went wrong -> keepFirstX() -> deletedTeams=', deletedTeams);
+    //     }
+    // }
+    // catch(e){
+    //     console.log('Something went wrong -> keepFirstX() -> e=', e);
+
     }
-
 
     return (
         <>
-
             <div className="my-4 mx-2">
                 {/* <router-outlet></router-outlet> */}
             </div>
@@ -94,17 +75,17 @@ function Home() {
                         </tr>
                     </thead>
                     <tbody>
-                    { teams && teams.map((team)=>(         
-                        <tr>
-                            <td className="col-1" innerText="team.id"></td>
-                            <td className="col-2" innerText="team.teamName"></td>
-                            <td className="col-2" innerText="team.gameName"></td>
-                            <td className="col-3" innerText="team.emailId"></td>
-                            <td className="col-4">
-                                <button className="btn text-primary p-1 mr-2" onClick={updateTeam(team.id)}><small>Update</small></button>
-                                <button className="btn text-danger p-1 mr-2" onClick={deleteTeam(team.id)}><small>Delete</small></button>
-                            </td>
-                        </tr>))}
+                        {teams && (teams.map((team,index) => (
+                            <tr key={index}>
+                                <td className="col-1" >{team.id}</td>
+                                <td className="col-2" >{team.teamName}</td>
+                                <td className="col-2" >{team.gameName}</td>
+                                <td className="col-3" >{team.emailId}</td>
+                                <td className="col-4">
+                                    <button className="btn text-primary p-1 mr-2" onClick={()=>updateTeam(team.id)}><small>Update</small></button>
+                                    <button className="btn text-danger p-1 mr-2" onClick={()=>deleteTeam(team.id)}><small>Delete</small></button>
+                                </td>
+                            </tr>)))}
                     </tbody>
                 </table>
             </div>
@@ -112,7 +93,5 @@ function Home() {
         </>
     );
 }
-
-
 
 export default Home;
