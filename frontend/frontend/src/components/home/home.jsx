@@ -1,10 +1,22 @@
-// import {  } from 'react';
 import { useState } from 'react';
 import './home.css';
 
-function Home({teamsInput,teamDeleted,keepFirstTeam}) {
+function Home() {
 
-    const [teams, setTeams] = useState(teamsInput);
+    const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' }];
+
+    const [teams,setTeams] = useState(info);
+  
+    //   async function getTeams() {
+    //     const res = await fetch('getTeamsURL');
+    //     const teamsJSON = await res.json();
+  
+    //     if(teamsJSON){
+    //         setTeams(teamsJSON);
+    //     } else {
+    //         console.log('Something went wrong -> getTeams() -> res=', teamsJSON);
+    //     }
+    // }
 
     function updateTeam(id) {
         // this.router.navigate(['updateTeam', id]);
@@ -13,7 +25,6 @@ function Home({teamsInput,teamDeleted,keepFirstTeam}) {
 
     async function deleteTeam(id) {
         alert(`deleteTeam > ${id}`);
-        teamDeleted(id);
     //     try{
     //     const deletedTeam = await fetch('URL');
     //     const deletedTeamJSON = await deletedTeam.json();
@@ -30,7 +41,6 @@ function Home({teamsInput,teamDeleted,keepFirstTeam}) {
 
     function keepFirst() {
         alert('reset > keepFirst');
-        keepFirstTeam();
     //     try{
     //     const deletedTeams = await fetch('URL');
     //     const deletedTeamsJSON = await deletedTeams.json();
