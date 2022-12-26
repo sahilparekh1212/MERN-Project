@@ -4,7 +4,7 @@ import './home.css';
 
 function Home() {
 
-    const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' }];
+    const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' },{ id: 2, teamName: 'teamName', gameName: 'gameName', emailId: 'b@team.com' }];
 
     const [teams,setTeams] = useState(info);
   
@@ -22,7 +22,7 @@ function Home() {
     function updateTeam(id) {
         // this.router.navigate(['updateTeam', id]);
         // alert(`updateTeam > ${id}`);
-        navigateConst('/update');
+        navigateConst(`/update/${id}`);
     }
 
     async function deleteTeam(id) {

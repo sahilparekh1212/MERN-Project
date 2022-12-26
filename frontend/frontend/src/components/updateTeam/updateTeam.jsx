@@ -1,6 +1,11 @@
 import './updateTeam.css'
+import { useState } from 'react';
 
-const UpdateTeam = () => {
+const UpdateTeam = (props) => {
+
+    const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' }];
+
+    const [teams,setTeams] = useState(info);
 
     const submitTeam = (e)=>{
         e.preventDefault();
