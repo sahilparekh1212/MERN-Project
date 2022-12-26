@@ -1,25 +1,29 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CustomNavigation from './components/customNavigation/customNavigation';
 import Home from './components/home/home';
 import AddTeam from './components/addTeam/addTeam';
+import UpdateTeam from './components/updateTeam/updateTeam';
 
 function App() {
 
   return (
-
     <>
-    <div className="container">
-      <nav>
-        <ul className="nav nav-tabs">
-          <li className="nav-item"><a href="https://www.google.com/" className="nav-link text-info" >Home</a></li>
-          <li className="nav-item"><a href="https://www.google.com/" className="nav-link text-info">Add Team</a></li>
-        </ul>
-      </nav>
-      {/* <Home/> */}
-      <AddTeam newTeamAdded={()=>{alert('newTeamAdded in App.js')}}></AddTeam>
-    </div>
+      <div className="container">
+        <BrowserRouter>
+          <CustomNavigation />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+            <Route path="/update" element={<UpdateTeam />}></Route>
+            <Route path="/addTeam" element={<AddTeam newTeamAdded={() => { alert('newTeamAdded in App.js') }} />}></Route>
+            <Route path="*" element={<Home />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
+  )
 
-  );
 }
 
 export default App;

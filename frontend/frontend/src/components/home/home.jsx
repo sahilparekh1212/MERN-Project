@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './home.css';
 
 function Home() {
@@ -20,11 +21,16 @@ function Home() {
 
     function updateTeam(id) {
         // this.router.navigate(['updateTeam', id]);
-        alert(`updateTeam > ${id}`);
+        // alert(`updateTeam > ${id}`);
+        navigateConst('/update');
     }
 
     async function deleteTeam(id) {
-        alert(`deleteTeam > ${id}`);
+        if(window.confirm(`Want to delete Team with id ${id} ?`)){
+            alert('deleted successfully');
+        }else{
+            alert('did not delete');
+        }
     //     try{
     //     const deletedTeam = await fetch('URL');
     //     const deletedTeamJSON = await deletedTeam.json();
@@ -64,7 +70,7 @@ function Home() {
     //     console.log('Something went wrong -> keepFirstX() -> e=', e);
 
     }
-
+    const navigateConst = useNavigate();
     return (
         <>
             <div className="my-4 mx-2">
