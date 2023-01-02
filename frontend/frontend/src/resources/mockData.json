@@ -1,0 +1,16 @@
+{
+    "info": [
+        {
+            "id": 1,
+            "teamName": "teamName",
+            "gameName": "gameName",
+            "emailId": "a@team.com"
+        },
+        {
+            "id": 2,
+            "teamName": "teamName",
+            "gameName": "gameName",
+            "emailId": "b@team.com"
+        }
+    ]
+}

@@ -1,15 +1,30 @@
 import './updateTeam.css'
 import { useState } from 'react';
+// import { TeamsContext } from '../../contexts/contexts';
 
 const UpdateTeam = (props) => {
 
-    const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' }];
+    const search = (id, inputArray) => {
+        for (let i = 0; i < inputArray.length; i++) {
+            if (inputArray[i].id == id) {
+                return inputArray[i];
+            }
+        }
+    }
 
-    const [teams,setTeams] = useState(info);
+    const windowHref = window.location.href;
 
-    const submitTeam = (e)=>{
+    const currentTeamId = windowHref.substring(windowHref.indexOf('update') + (('update').length + 1), windowHref.length);
+
+    const [currentTeam, setCurrentTeam] = useState(search(currentTeamId, props.teams));
+
+    const submitTeam = (e) => {
         e.preventDefault();
-        console.log("submitTeam e=",e);
+        props.updateTeamFunc(currentTeam);
+    }
+
+    const resetForm = () => {
+        setCurrentTeam(search(currentTeamId, props.teams));
     }
 
     return (
@@ -36,16 +51,17 @@ const UpdateTeam = (props) => {
                 </div>
             )} */}
 
-            <form onSubmit={submitTeam}>
+            {currentTeam && <form onSubmit={submitTeam}>
 
                 <div>
                     <label className="m-2" htmlFor="teamId">Team Id:&nbsp;</label>
-                    <input className="col-6 text-light" type="text" name="teamId" value="teamid" disabled></input>
+                    <input className="col-6" type="text" name="teamId" disabled value={currentTeam.id} />
                 </div>
 
                 <div>
                     <label className="m-2" htmlFor="teamName">Team Name:&nbsp;</label>
-                    <input className="col-6 text-light" type="text" name="teamName"></input>
+                    <input className="col-6" type="text" name="teamName"
+                        onChange={(e) => { setCurrentTeam({ ...currentTeam, teamName: e.target.value }) }} value={currentTeam.teamName} />
                     <small className="text-danger mx-2">
                         {/* <span ngIf="teamName?errors?'required'">
                             required &emsp;
@@ -58,7 +74,8 @@ const UpdateTeam = (props) => {
 
                 <div>
                     <label className="m-2" htmlFor="gameName">Game Name:&nbsp;</label>
-                    <input className="col-6 text-light" type="text" name="gameName"></input>
+                    <input className="col-6" type="text" name="gameName"
+                        onChange={(e) => { setCurrentTeam({ ...currentTeam, gameName: e.target.value }) }} value={currentTeam.gameName} />
                     <small className="text-danger mx-2">
                         {/* <span ngIf="gameName?errors?'required'">
                             required &emsp;
@@ -71,7 +88,8 @@ const UpdateTeam = (props) => {
 
                 <div>
                     <label className="m-2" htmlFor="emailId">Email Id:&nbsp;</label>
-                    <input className="col-6 text-light" type="email" name="emailId"></input>
+                    <input className="col-6" type="text" name="emailId"
+                        onChange={(e) => { setCurrentTeam({ ...currentTeam, emailId: e.target.value }) }} value={currentTeam.emailId} />
                     <small className="text-danger mx-2">
                         {/* <span ngIf="emailId?errors?'required'">
                             required &emsp;
@@ -80,8 +98,12 @@ const UpdateTeam = (props) => {
                 </div>
 
                 <button type="submit" className="m-2 rounded">Submit</button>
-                <button click="clearForm" className="m-2 rounded text-info border-info">Clear</button>
+                <button onClick={
+                    // ()=>{setCurrentTeam(search(currentTeamId,props.teams))}
+                    resetForm
+                } className="m-2 rounded text-info border-info">Reset</button>
             </form>
+            }
         </>
     )
 }

@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { TeamsContext } from '../../contexts/contexts';
 import './home.css';
 
-function Home() {
+function Home(props) {
 
-    const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' },{ id: 2, teamName: 'teamName', gameName: 'gameName', emailId: 'b@team.com' }];
+    const [teams,setTeams] = useState(props.teams);
 
-    const [teams,setTeams] = useState(info);
-  
     //   async function getTeams() {
     //     const res = await fetch('getTeamsURL');
     //     const teamsJSON = await res.json();

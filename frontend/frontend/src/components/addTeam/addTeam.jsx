@@ -2,7 +2,17 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import './addTeam.css'
 
-const AddTeam = ({ newTeamAdded }) => {
+const AddTeam = (props) => {
+
+    const search = (id, inputArray) => {
+        for (let i = 0; i < inputArray.length; i++) {
+            if (inputArray[i].id == id) {
+                return inputArray[i];
+            }
+        }
+        return 'none';
+    }
+
     const [isTeamValid, setIsTeamValid] = useState(false);
     const [isTeamAdded, setIsTeamAdded] = useState(false);
     const [similarTeamDetails, setSimilarTeamDetails] = useState(false);
@@ -13,11 +23,17 @@ const AddTeam = ({ newTeamAdded }) => {
     const [team, setTeam] = useState({ id: Math.floor(Math.random() * 100 + 1), teamName: 'z', gameName: 'game', emailId: 'z@team.com' });
 
     useEffect(() => {
-        if(team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.gameName.length >= 4)) {
-            console.log('isValid');
+        while (search(team.id,props.teams)!=='none'){
+            setTeam({...team,id:Math.floor(Math.random() * 100 + 1)});
+        }
+        console.log("useEffect",team);
+    }, []);
+
+    useEffect(() => {
+        if (team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.gameName.length >= 4)) {
             setIsTeamValid(true);
-        }else{
-            console.log('is not Valid');
+        } else {
+            console.log('Team is not Valid. team=', team);
             setIsTeamValid(false);
         }
     }, [team]);
@@ -26,8 +42,8 @@ const AddTeam = ({ newTeamAdded }) => {
         e.preventDefault();
         if (team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.gameName.length >= 4)) {
             console.log(e);
-            newTeamAdded();
             setIsTeamAdded(true);
+            addTeamFunc();
         } else {
             setIsTeamAdded(false);
             console.log("form has validation error => team = ", team);
@@ -42,6 +58,10 @@ const AddTeam = ({ newTeamAdded }) => {
         //     console.log('submitTeam() -> Something went wrong')
         // }
         setShowMessage(true);
+    }
+
+    const addTeamFunc = () => {
+        props.addTeamFunc();
     }
 
     return (
@@ -82,25 +102,25 @@ const AddTeam = ({ newTeamAdded }) => {
                 <div>
                     <label className="m-2" htmlFor="teamName">teamName</label>
                     <input className="col-6" type="text" name="teamName" required
-                        onChange={(e) => { setTeam({ ...team, teamName: e.target.value }) }} placeholder={team.teamName}></input>
+                        onChange={(e) => { setTeam({ ...team, teamName: e.target.value }) }} value={team.teamName}></input>
                     {(team.teamName.length > 8) && <span className="small text-danger p-2">Maximum length 8 is allowed</span>}
                 </div>
 
                 <div>
                     <label className="m-2" htmlFor="gameName">gameName</label>
                     <input className="col-6" type="text" name="gameName" required
-                        onChange={(e) => { setTeam({ ...team, gameName: e.target.value }) }} placeholder={team.gameName}></input>
+                        onChange={(e) => { setTeam({ ...team, gameName: e.target.value }) }} value={team.gameName}></input>
                     {(team.gameName.length < 4) && <span className="small text-danger p-2">Minimum length 4 is required</span>}
                 </div>
 
                 <div>
                     <label className="m-2" htmlFor="emailId">emailId</label>
-                    <input className="col-6" type="text" name="emailId" required onChange={(e) => { setTeam({ ...team, emailId: e.target.value }) }} placeholder={team.emailId}></input>
+                    <input className="col-6" type="text" name="emailId" required onChange={(e) => { setTeam({ ...team, emailId: e.target.value }) }} value={team.emailId}></input>
                     {(!team.emailId.includes('@') || !team.emailId.includes('.')) && <span className="small text-danger p-2">Invalid email</span>}
                 </div>
 
                 {isTeamValid ? (<button type="submit"
-                    className="m-2 border rounded text-success border-success">Submit</button>) : (<button 
+                    className="m-2 border rounded text-success border-success">Submit</button>) : (<button
                         className="m-2 border rounded text-danger border-danger" disabled
                     >Submit</button>)}
 
