@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { TeamsContext } from '../../contexts/contexts';
 import './home.css';
 
 function Home(props) {
 
-    const [teams,setTeams] = useState(props.teams);
+    const [teams, setTeams] = useState(props.teams);
 
     //   async function getTeams() {
     //     const res = await fetch('getTeamsURL');
     //     const teamsJSON = await res.json();
-  
+
     //     if(teamsJSON){
     //         setTeams(teamsJSON);
     //     } else {
@@ -18,55 +17,44 @@ function Home(props) {
     //     }
     // }
 
-    function updateTeam(id) {
+    const updateTeam = (id) => {
         // this.router.navigate(['updateTeam', id]);
         // alert(`updateTeam > ${id}`);
         navigateConst(`/update/${id}`);
     }
 
-    async function deleteTeam(id) {
-        if(window.confirm(`Want to delete Team with id ${id} ?`)){
-            alert('deleted successfully');
-        }else{
+    const deleteTeam = (team) => {
+        if (window.confirm(`Want to delete Team with id ${team.id} ?`)) {
+            props.deleteTeamFunc(team);
+            // alert('deleted successfully');
+        } else {
             alert('did not delete');
         }
-    //     try{
-    //     const deletedTeam = await fetch('URL');
-    //     const deletedTeamJSON = await deletedTeam.json();
-
-    //     if (deletedTeamJSON.id) {
-    //         setTeams((teams.filter((item) => { return item.id !== deletedTeam.id })));
-    //     } else {
-    //         console.log('Something went wrong -> deleteTeam() -> deletedTeam=', deletedTeam);
-    //     }
-    // }catch(e){
-    //     console.log('Something went wrong -> deleteTeam() -> e=', e);
-    // }
     }
 
-    function keepFirst() {
+    const keepFirst = () => {
         alert('reset > keepFirst');
-    //     try{
-    //     const deletedTeams = await fetch('URL');
-    //     const deletedTeamsJSON = await deletedTeams.json();
+        //     try{
+        //     const deletedTeams = await fetch('URL');
+        //     const deletedTeamsJSON = await deletedTeams.json();
 
-    //     if (deletedTeamsJSON) {
-    //         let idArr = [];
+        //     if (deletedTeamsJSON) {
+        //         let idArr = [];
 
-    //         deletedTeamsJSON.forEach((res) => {
-    //             idArr.push(res.id);
-    //         });
+        //         deletedTeamsJSON.forEach((res) => {
+        //             idArr.push(res.id);
+        //         });
 
-    //         setTeams(teams.filter((team) => {
-    //             return !idArr.includes(team.id);
-    //         }));
+        //         setTeams(teams.filter((team) => {
+        //             return !idArr.includes(team.id);
+        //         }));
 
-    //     } else {
-    //         console.log('Something went wrong -> keepFirstX() -> deletedTeams=', deletedTeams);
-    //     }
-    // }
-    // catch(e){
-    //     console.log('Something went wrong -> keepFirstX() -> e=', e);
+        //     } else {
+        //         console.log('Something went wrong -> keepFirstX() -> deletedTeams=', deletedTeams);
+        //     }
+        // }
+        // catch(e){
+        //     console.log('Something went wrong -> keepFirstX() -> e=', e);
 
     }
     const navigateConst = useNavigate();
@@ -90,15 +78,15 @@ function Home(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {teams && (teams.map((team,index) => (
+                        {teams && (teams.map((team, index) => (
                             <tr key={index}>
                                 <td className="col-1" >{team.id}</td>
                                 <td className="col-2" >{team.teamName}</td>
                                 <td className="col-2" >{team.gameName}</td>
                                 <td className="col-3" >{team.emailId}</td>
                                 <td className="col-4">
-                                    <button className="btn text-primary p-1 mr-2" onClick={()=>updateTeam(team.id)}><small>Update</small></button>
-                                    <button className="btn text-danger p-1 mr-2" onClick={()=>deleteTeam(team.id)}><small>Delete</small></button>
+                                    <button className="btn text-primary p-1 mr-2" onClick={() => updateTeam(team.id)}><small>Update</small></button>
+                                    <button className="btn text-danger p-1 mr-2" onClick={() => deleteTeam(team)}><small>Delete</small></button>
                                 </td>
                             </tr>)))}
                     </tbody>

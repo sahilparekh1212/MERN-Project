@@ -61,7 +61,7 @@ const AddTeam = (props) => {
     }
 
     const addTeamFunc = () => {
-        props.addTeamFunc();
+        props.addTeamFunc(team);
     }
 
     return (

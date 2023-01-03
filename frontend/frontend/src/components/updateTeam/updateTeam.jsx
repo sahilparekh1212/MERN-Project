@@ -1,6 +1,5 @@
 import './updateTeam.css'
 import { useState } from 'react';
-// import { TeamsContext } from '../../contexts/contexts';
 
 const UpdateTeam = (props) => {
 
@@ -25,6 +24,10 @@ const UpdateTeam = (props) => {
 
     const resetForm = () => {
         setCurrentTeam(search(currentTeamId, props.teams));
+    }
+
+    const  deleteTeamFunc = () => {
+        props.deleteTeamFunc(search(currentTeamId, props.teams));
     }
 
     return (
@@ -98,10 +101,8 @@ const UpdateTeam = (props) => {
                 </div>
 
                 <button type="submit" className="m-2 rounded">Submit</button>
-                <button onClick={
-                    // ()=>{setCurrentTeam(search(currentTeamId,props.teams))}
-                    resetForm
-                } className="m-2 rounded text-info border-info">Reset</button>
+                <button onClick={resetForm} className="m-2 rounded text-info border-info">Reset</button>
+                <button onClick={deleteTeamFunc} className="m-2 rounded text-info bg-danger border-info">Delete</button>
             </form>
             }
         </>
