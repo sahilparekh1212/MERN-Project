@@ -6,13 +6,13 @@
 	},
 	"item": [
 		{
-			"name": "Add Review",
+			"name": "addTeam",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"team_id\":\"5eb3d668b31de5d588f4292c\",\r\n    \"text\":\"Awesome it is\",\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
+					"raw": "{\r\n    \"teamName\":\"h\",\r\n    \"gameName\":\"hgGame\",\r\n    \"gmailId\":\"h@team.team\",\r\n    \"city\":\"city4\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,7 +20,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/teams/review",
+					"raw": "http://localhost:5000/api/v1/teams/addTeam",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -30,75 +30,7 @@
 						"api",
 						"v1",
 						"teams",
-						"review"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Review",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"review_id\":\"63ca123e81ba0a68e88522a5\",\r\n    \"text\":\"123\",\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1/teams/review",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1",
-						"teams",
-						"review"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Review",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1/teams/review?id=63ca0191bae1983040264f94",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1",
-						"teams",
-						"review"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "63ca0191bae1983040264f94"
-						}
+						"addTeam"
 					]
 				}
 			},
@@ -126,12 +58,35 @@
 			"response": []
 		},
 		{
-			"name": "Get teams by zipcode",
+			"name": "Get team by id",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/teams?zipcode=10314",
+					"raw": "http://localhost:5000/api/v1/teams/id/63cae035d27f5fa7723d271c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"teams",
+						"id",
+						"63cae035d27f5fa7723d271c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get teams by teamName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/teams?teamName=a",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -144,8 +99,8 @@
 					],
 					"query": [
 						{
-							"key": "zipcode",
-							"value": "10314"
+							"key": "teamName",
+							"value": "a"
 						}
 					]
 				}
@@ -153,12 +108,12 @@
 			"response": []
 		},
 		{
-			"name": "Get teams by cuisine",
+			"name": "Get teams by gameName",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/teams?cuisine=American",
+					"raw": "http://localhost:5000/api/v1/teams?gameName=bGame",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -171,8 +126,8 @@
 					],
 					"query": [
 						{
-							"key": "cuisine",
-							"value": "American"
+							"key": "gameName",
+							"value": "bGame"
 						}
 					]
 				}
@@ -180,12 +135,12 @@
 			"response": []
 		},
 		{
-			"name": "Get teams by name",
+			"name": "Get teams by emailId",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/teams?name=food-cave",
+					"raw": "http://localhost:5000/api/v1/teams?emailId=c@team.team",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -198,8 +153,128 @@
 					],
 					"query": [
 						{
-							"key": "name",
-							"value": "food-cave"
+							"key": "emailId",
+							"value": "c@team.team"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/teams/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"teams",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Team",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"id\": \"63caf30d4808d1fce2c263b6\",\r\n            \"teamName\": \"cUpdated\",\r\n            \"gameName\": \"cUpdatedGame\",\r\n            \"emailId\": \"cUpdated@team.team\",\r\n            \"city\": \"cityUpdated1\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/teams/updateTeam",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"teams",
+						"updateTeam"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Team",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"63cae035d27f5fa7723d271c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/teams/deleteTeam",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"teams",
+						"deleteTeam"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Keep First X",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"63cae035d27f5fa7723d271c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/teams?keepFirstX=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"teams"
+					],
+					"query": [
+						{
+							"key": "keepFirstX",
+							"value": "3"
 						}
 					]
 				}
