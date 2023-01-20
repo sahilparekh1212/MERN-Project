@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"restaurant_id\":\"5eb3d668b31de5d588f4292c\",\r\n    \"text\":\"Awesome it is\",\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
+					"raw": "{\r\n    \"team_id\":\"5eb3d668b31de5d588f4292c\",\r\n    \"text\":\"Awesome it is\",\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,7 +20,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants/review",
+					"raw": "http://localhost:5000/api/v1/teams/review",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -29,7 +29,7 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants",
+						"teams",
 						"review"
 					]
 				}
@@ -51,7 +51,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants/review",
+					"raw": "http://localhost:5000/api/v1/teams/review",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -60,7 +60,7 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants",
+						"teams",
 						"review"
 					]
 				}
@@ -82,7 +82,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants/review?id=63ca0191bae1983040264f94",
+					"raw": "http://localhost:5000/api/v1/teams/review?id=63ca0191bae1983040264f94",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -91,7 +91,7 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants",
+						"teams",
 						"review"
 					],
 					"query": [
@@ -105,12 +105,12 @@
 			"response": []
 		},
 		{
-			"name": "Get restaurants",
+			"name": "Get teams",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants",
+					"raw": "http://localhost:5000/api/v1/teams",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -119,19 +119,19 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants"
+						"teams"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get restaurants by zipcode",
+			"name": "Get teams by zipcode",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants?zipcode=10314",
+					"raw": "http://localhost:5000/api/v1/teams?zipcode=10314",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -140,7 +140,7 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants"
+						"teams"
 					],
 					"query": [
 						{
@@ -153,12 +153,12 @@
 			"response": []
 		},
 		{
-			"name": "Get restaurants by cuisine",
+			"name": "Get teams by cuisine",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants?cuisine=American",
+					"raw": "http://localhost:5000/api/v1/teams?cuisine=American",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -167,7 +167,7 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants"
+						"teams"
 					],
 					"query": [
 						{
@@ -180,12 +180,12 @@
 			"response": []
 		},
 		{
-			"name": "Get restaurants by name",
+			"name": "Get teams by name",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/v1/restaurants?name=food-cave",
+					"raw": "http://localhost:5000/api/v1/teams?name=food-cave",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -194,7 +194,7 @@
 					"path": [
 						"api",
 						"v1",
-						"restaurants"
+						"teams"
 					],
 					"query": [
 						{
