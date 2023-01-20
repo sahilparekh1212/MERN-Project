@@ -1,13 +1,14 @@
 import express from "express"
 import RestaurantsController from "./restaurants.controller.js"
+import ReviewsController from "./reviews.controller.js"
 
 const router = express.Router();
 
 router.route("/").get((RestaurantsController.apiGetRestaurants));
 
-// http://localhost:5000/api/v1/teams
-// router.route("/").get((req,res)=>{
-//     res.send("hello world");
-// });
+router.route("/review")
+    .post(ReviewsController.apiPostReview)
+    .put(ReviewsController.apiUpdateReview)
+    .delete(ReviewsController.apiDeleteReview)
 
 export default router;

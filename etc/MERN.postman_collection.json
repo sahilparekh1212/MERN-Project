@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "5086f828-b684-4837-b682-6415b4c3d17b",
+		"name": "MERN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Review",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"restaurant_id\":\"5eb3d668b31de5d588f4292c\",\r\n    \"text\":\"Awesome it is\",\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants/review",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Review",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"review_id\":\"63ca123e81ba0a68e88522a5\",\r\n    \"text\":\"123\",\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants/review",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Review",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\":\"123\",\r\n    \"name\":\"nameOfReviewer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants/review?id=63ca0191bae1983040264f94",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants",
+						"review"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63ca0191bae1983040264f94"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get restaurants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get restaurants by zipcode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants?zipcode=10314",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants"
+					],
+					"query": [
+						{
+							"key": "zipcode",
+							"value": "10314"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get restaurants by cuisine",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants?cuisine=American",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants"
+					],
+					"query": [
+						{
+							"key": "cuisine",
+							"value": "American"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get restaurants by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1/restaurants?name=food-cave",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"restaurants"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "food-cave"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

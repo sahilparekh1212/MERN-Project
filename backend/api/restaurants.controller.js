@@ -1,4 +1,4 @@
-import RestaurantsDAO from "../dao/RestaurantsDAO.js"
+import RestaurantsDAO from "../dao/restaurantsDAO.js"
 
 export default class RestaurantsController {
     static async apiGetRestaurants(req, res, next) {
@@ -7,10 +7,13 @@ export default class RestaurantsController {
 
         let filters = {}
         if (req.query.cuisine) {
-            filters.cuisine = req.query.quisine
+            // http://localhost:5000/api/v1/restaurants?cuisine=American
+            filters.cuisine = req.query.cuisine
         } else if (req.query.zipcode) {
+            // http://localhost:5000/api/v1/restaurants?zipcode=10314
             filters.zipcode = req.query.zipcode
         } else if (req.query.name) {
+            // http://localhost:5000/api/v1/restaurants?name=food-cave
             filters.name = req.query.name
         }
 

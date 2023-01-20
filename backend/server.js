@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import restaurants from "./api/Restaurants.route.js"
+import restaurants from "./api/restaurants.route.js"
 
 const app = express();
 app.use(cors());
