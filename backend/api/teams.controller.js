@@ -10,9 +10,8 @@ export default class TeamsController {
             if (error) {
                 res.status(400).json({ error: "apiPostTeam 500 a error=", error });
             };
-
-            console.log("apiPostTeam success response=", response);
-            res.json({ status: "success apiPostTeam" });
+            console.log("apiPostTeam > response=", response);
+            res.status(200).json({ result: "success", id: response.insertedId });
         } catch (e) {
             console.log("apiPostTeam 500 b > e=", e);
             res.status(500).json({ error: "500 of apiPostTeam" });
@@ -48,8 +47,8 @@ export default class TeamsController {
             entries_per_page: teamsPerPage,
             total_results: totalNumTeams,
         }
-
-        res.json(response);
+        console.log("apiGetTeams > response=", response);
+        res.status(200).json(response);
     }
 
     static async apiGetTeamById(req, res, next) {
@@ -61,9 +60,10 @@ export default class TeamsController {
                 res.status(404).json({ error: "404 apiGetTeams" });
                 return;
             }
-            res.json(team);
+            console.log("apiGetTeamById > response=", response);
+            res.status(200).json({ team: team });
         } catch (e) {
-            console.log(`apiGetTeams > e= ${e}`);
+            console.log("apiGetTeams > e=", e);
             res.status(500).json({ error: "500 apiGetTeams" });
         }
     }
@@ -76,7 +76,8 @@ export default class TeamsController {
                 res.status(404).json({ error: "404 apiGetTeamsCities" });
                 return;
             }
-            res.json(cities);
+            console.log("apiGetTeamsCities > response=", response);
+            res.status(200).json({ result: "success", cities: cities });
         } catch (e) {
             console.log(`apiGetTeamsCities > e= ${e}`);
             res.status(500).json({ error: "500 apiGetTeamsCities" });
@@ -100,15 +101,16 @@ export default class TeamsController {
                 res.status(400).json({ error: "400 apiUpdateTeam" });
             }
 
-            if (reviewResponse.modifiedCount === 0) {
+            if (response.modifiedCount === 0) {
                 throw new Error(
                     `Unable to update team response=${response}`
                 )
             }
-
-            res.json({ status: "success apiUpdateTeam" })
+            console.log("apiUpdateTeam > response=", response);
+            res.status(200).json({ result: "success" })
         } catch (e) {
-            res.status(500).json({ error: "500 apiUpdateTeam" });
+            console.log("apiUpdateTeam > error=", e);
+            res.status(501).json({ error: "500 apiUpdateTeam" });
         }
     }
 
@@ -121,9 +123,12 @@ export default class TeamsController {
             if (error) {
                 res.status(400).json({ error: "400 apiDeleteTeam" });
             }
-
-            console.log(`apiDeleteTeam > response=${response}`);
-            res.json({ status: "success apiDeleteTeam" });
+            console.log("apiDeleteTeam > response=", response);
+            if (response.deletedCount && response.deletedCount === 1) {
+                res.status(200).json({ result: "success" });
+            } else {
+                res.status(404).json({ error: "team not found" });
+            }
         } catch (e) {
             res.status(500).json({ error: "500 apiDeleteTeam" })
         }
@@ -131,8 +136,9 @@ export default class TeamsController {
 
     static async apiKeepFirstX(req, res, next) {
         try {
-            await TeamsDAO.keepFirstX(parseInt(req.query.keepFirstX));
-            res.status(200).json({ status: "success apiKeepFirstX" });
+            const response = await TeamsDAO.keepFirstX(parseInt(req.query.keepFirstX));
+            console.log("apiKeepFirstX > response=", response);
+            res.status(200).json({ result: "success" });
         } catch (e) {
             console.log("apiKeepFirstX > e=", e);
             res.status(500).json({ error: "500 apiKeepFirstX" })

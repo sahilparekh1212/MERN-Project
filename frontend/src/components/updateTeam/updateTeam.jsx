@@ -1,11 +1,11 @@
 import './updateTeam.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const UpdateTeam = (props) => {
+const UpdateTeam = ({ teamsList, getTeams }) => {
 
     const search = (id, inputArray) => {
         for (let i = 0; i < inputArray.length; i++) {
-            if (inputArray[i].id == id) {
+            if (inputArray[i]._id == id) {
                 return inputArray[i];
             }
         }
@@ -15,19 +15,41 @@ const UpdateTeam = (props) => {
 
     const currentTeamId = windowHref.substring(windowHref.indexOf('update') + (('update').length + 1), windowHref.length);
 
-    const [currentTeam, setCurrentTeam] = useState(search(currentTeamId, props.teams));
+    const [currentTeam, setCurrentTeam] = useState({});
+
+    useEffect(() => {
+        setCurrentTeam(search(currentTeamId, teamsList));
+    }, []);
 
     const submitTeam = (e) => {
         e.preventDefault();
-        props.updateTeamFunc(currentTeam);
+        updateTeamFunc(currentTeam);
     }
 
-    const resetForm = () => {
-        setCurrentTeam(search(currentTeamId, props.teams));
+    const updateTeamFunc = (input) => {
+        fetch("http://localhost:5000/api/v1/teams/updateTeam", {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: input._id,
+                teamName: input.teamName,
+                gameName: input.gameName,
+                emailId: input.emailId,
+                city: "updated" + new Date().toLocaleTimeString()
+            })
+        })
+            .then((res) => res.json()).then((data) => {
+                console.log('updateTeamFunc > data= ', data);
+                getTeams();
+            })
     }
 
-    const  deleteTeamFunc = () => {
-        props.deleteTeamFunc(search(currentTeamId, props.teams));
+    const resetForm = (e) => {
+        e.preventDefault();
+        setCurrentTeam(search(currentTeamId, teamsList));
     }
 
     return (
@@ -58,7 +80,7 @@ const UpdateTeam = (props) => {
 
                 <div>
                     <label className="m-2" htmlFor="teamId">Team Id:&nbsp;</label>
-                    <input className="col-6" type="text" name="teamId" disabled value={currentTeam.id} />
+                    <input className="col-6" type="text" name="teamId" disabled value={currentTeam._id} />
                 </div>
 
                 <div>
@@ -102,7 +124,6 @@ const UpdateTeam = (props) => {
 
                 <button type="submit" className="m-2 rounded">Submit</button>
                 <button onClick={resetForm} className="m-2 rounded text-info border-info">Reset</button>
-                <button onClick={deleteTeamFunc} className="m-2 rounded text-info bg-danger border-info">Delete</button>
             </form>
             }
         </>

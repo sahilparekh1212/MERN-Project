@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import './addTeam.css'
 
-const AddTeam = (props) => {
+const AddTeam = ({ teamsList, getTeams }) => {
 
     const search = (id, inputArray) => {
         for (let i = 0; i < inputArray.length; i++) {
-            if (inputArray[i].id == id) {
+            if (inputArray[i]._id == id) {
                 return inputArray[i];
             }
         }
@@ -23,10 +23,10 @@ const AddTeam = (props) => {
     const [team, setTeam] = useState({ id: Math.floor(Math.random() * 100 + 1), teamName: 'z', gameName: 'game', emailId: 'z@team.com' });
 
     useEffect(() => {
-        while (search(team.id,props.teams)!=='none'){
-            setTeam({...team,id:Math.floor(Math.random() * 100 + 1)});
+        while (search(team._id, teamsList) !== 'none') {
+            setTeam({ ...team, id: Math.floor(Math.random() * 100 + 1) });
         }
-        console.log("useEffect",team);
+        console.log("useEffect", team);
     }, []);
 
     useEffect(() => {
@@ -41,9 +41,7 @@ const AddTeam = (props) => {
     const submitTeam = (e) => {
         e.preventDefault();
         if (team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.gameName.length >= 4)) {
-            console.log(e);
-            setIsTeamAdded(true);
-            addTeamFunc();
+            addTeam();
         } else {
             setIsTeamAdded(false);
             console.log("form has validation error => team = ", team);
@@ -60,15 +58,35 @@ const AddTeam = (props) => {
         setShowMessage(true);
     }
 
-    const addTeamFunc = () => {
-        props.addTeamFunc(team);
+    const addTeam = () => {
+
+        fetch("http://localhost:5000/api/v1/teams/addTeam", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                teamName: team.teamName,
+                gameName: team.gameName,
+                emailId: team.emailId,
+                city: "TBD" + new Date().toLocaleDateString()
+            })
+        })
+            .then((res) => res.json()).then((data) => {
+                console.log('addTeamFunc > data= ', data);
+                setTeam({ ...team, id: data.id });
+                getTeams();
+                setIsTeamAdded(true);
+            });
     }
+
 
     return (
         <>
             {showMessage && (<>{(isTeamAdded) ? (
                 <div className="d-flex row justify-content-around text-success border border-success">
-                    <div className="col-11">Added Team Successfully Team id is </div>
+                    <div className="col-11">Added Team Successfully Team id is ${team.id}</div>
                     <div className="col-1"><button className="bg-transparent text-success border-0"
                         onClick={() => { setShowMessage(!showMessage) }}>&times;</button></div>
                 </div>
