@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import CustomNavigation from './components/customNavigation/customNavigation';
 import Home from './components/home/home';
@@ -7,49 +7,38 @@ import AddTeam from './components/addTeam/addTeam';
 import UpdateTeam from './components/updateTeam/updateTeam';
 
 function App() {
-  const info = [{ id: 1, teamName: 'teamName', gameName: 'gameName', emailId: 'a@team.com' }, { id: 2, teamName: 'teamName', gameName: 'gameName', emailId: 'b@team.com' }];
-  const [teams, setTeams] = useState(info);
+
+  const [teams, setTeams] = useState([]);
 
   useEffect(() => {
-    // fetch('../resources/mockData.json');
-    // const info =[];
+    getTeams();
+  }, []);
 
-    // const mockData = async ()=>{
-    //   const res = await ('../mockData.json');
-    //   info = await res.json();
-    // }
-
-    // mockData();
-    console.log("useEffects teams=", teams);
-  }, [teams]);
-
-  const updateTeamFunc = (input) => {
-    console.log("updateTeamFunc from App.js input=", input);
-    console.log("updateTeamFunc before", teams);
-    let inputArray = teams;
-    for (let i = 0; i < inputArray.length; i++) {
-      if (inputArray[i].id == input.id) {
-        inputArray[i] = input;
-        setTeams(inputArray);
-      }
-    }
-    // console.log("updateTeamFunc after", teams);
+  const getTeams = () => {
+    fetch("http://localhost:5000/api/v1/teams", {
+      method: 'GET'
+    })
+      .then((res) => res.json()).then((data) => {
+        console.log('Get Teams > data.teams= ', data.teams);
+        setTeams(data.teams);
+      })
   }
 
-  const addTeamFunc = (input) => {
-    console.log("addTeamFunc from App.js input=", input);
-    let refTeams = teams;
-    refTeams.push(input);
-    setTeams(refTeams);
-    // console.log("addTeamFunc after", teams);
-  }
-
-  const deleteTeamFunc = (team) => {
-    let teamsRef = teams;
-    let teamIndex = teamsRef.indexOf(team);
-    teamsRef.splice(teamIndex, 1);
-    setTeams(teamsRef);
-    // console.log("deleteTeamFunc after", teams);
+  const deleteTeam = (team) => {
+    fetch("http://localhost:5000/api/v1/teams/deleteTeam", {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: team._id
+      })
+    })
+      .then((res) => res.json()).then((data) => {
+        console.log('deleteTeam > data= ', data);
+        getTeams();
+      })
   }
 
   return (
@@ -57,11 +46,10 @@ function App() {
       <BrowserRouter>
         <CustomNavigation />
         <Routes>
-          <Route path="/" element={<Home teams={info} />}></Route>
-          <Route path="/home" element={<Home teams={info} deleteTeamFunc={deleteTeamFunc} />}></Route>
-          <Route path="/update/:id" element={<UpdateTeam teams={info} updateTeamFunc={updateTeamFunc} deleteTeamFunc={deleteTeamFunc} />}></Route>
-          <Route path="/addTeam" element={<AddTeam teams={info} addTeamFunc={addTeamFunc} />}></Route>
-          <Route path="*" element={<Home teams={info} />}></Route>
+          <Route path="/home" element={<Home teamsList={teams} deleteTeam={deleteTeam} getTeams={getTeams} />}></Route>
+          <Route path="/update/:id" element={<UpdateTeam teamsList={teams} getTeams={getTeams} />}></Route>
+          <Route path="/addTeam" element={<AddTeam teamsList={teams} getTeams={getTeams} />}></Route>
+          <Route path="*" element={<Home teamsList={teams} deleteTeam={deleteTeam} getTeams={getTeams} />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

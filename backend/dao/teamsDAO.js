@@ -16,7 +16,6 @@ export default class TeamsDAO {
     }
 
     static async postTeam(info) {
-        console.log(`info= ${info}`);
         try {
             const reviewDoc = {
                 teamName: info.teamName,
@@ -24,7 +23,6 @@ export default class TeamsDAO {
                 emailId: info.emailId,
                 city: info.city
             }
-            console.log(`postTeam() > postTeam=${reviewDoc}`);
             return await teams.insertOne(reviewDoc);
         } catch (e) {
             console.log(`Unable to postTeam e:${e}`);
@@ -57,7 +55,7 @@ export default class TeamsDAO {
             cursor = await teams.find(query);
         } catch (err) {
             console.log(`Cannot find cursor for query= ${query} , cursor=${cursor}`);
-            return { teamsList: [], totalNumTeams: 0 }
+            return { teamsList: [], totalNumTeams: 0 };
         }
 
         const displayCursor = cursor.limit(teamsPage).skip(teamsPage * page);
@@ -65,7 +63,7 @@ export default class TeamsDAO {
         try {
             const teamsList = await displayCursor.toArray();
             const totalNumTeams = await teams.countDocuments(query);
-            return { teamsList, totalNumTeams }
+            return { teamsList, totalNumTeams };
         } catch (e) {
             console.log(`Cannot count displayCursor= ${displayCursor}`);
             return { teamsList: [], totalNumTeams: 0 };
@@ -136,6 +134,7 @@ export default class TeamsDAO {
 
     static async deleteTeam(teamId) {
         try {
+            console.log("del > =", teamId);
             const response = await teams.deleteOne({
                 _id: ObjectId(teamId),
             });
@@ -158,7 +157,7 @@ export default class TeamsDAO {
                         response = await teams.deleteOne({
                             _id: element._id
                         });
-                        console.log("Deleted index=", index, "response=", response, "timePassed=", (new Date().getMilliseconds() - refTime));
+                        console.log("Deleted index=", index, "response=", response, "timeTaken=", (new Date().getMilliseconds() - refTime));
                     }
                 });
             });
