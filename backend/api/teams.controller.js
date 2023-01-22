@@ -11,7 +11,11 @@ export default class TeamsController {
                 res.status(400).json({ error: "apiPostTeam 500 a error=", error });
             };
             console.log("apiPostTeam > response=", response);
-            res.status(200).json({ result: "success", id: response.insertedId });
+            if (response.insertedId) {
+                res.status(200).json({ result: "success", id: response.insertedId });
+            } else {
+                res.status(404).json({ error: "something went wrong" });
+            }
         } catch (e) {
             console.log("apiPostTeam 500 b > e=", e);
             res.status(500).json({ error: "500 of apiPostTeam" });
@@ -61,7 +65,7 @@ export default class TeamsController {
                 return;
             }
             console.log("apiGetTeamById > response=", response);
-            res.status(200).json({ team: team });
+            res.status(200).json({ result: "success", team: team });
         } catch (e) {
             console.log("apiGetTeams > e=", e);
             res.status(500).json({ error: "500 apiGetTeams" });
@@ -101,16 +105,15 @@ export default class TeamsController {
                 res.status(400).json({ error: "400 apiUpdateTeam" });
             }
 
-            if (response.modifiedCount === 0) {
-                throw new Error(
-                    `Unable to update team response=${response}`
-                )
-            }
             console.log("apiUpdateTeam > response=", response);
-            res.status(200).json({ result: "success" })
+            if (response.modifiedCount && response.modifiedCount === 1) {
+                res.status(200).json({ result: "success" });
+            } else {
+                res.status(404).json({ error: "something went wrong" });
+            }
         } catch (e) {
             console.log("apiUpdateTeam > error=", e);
-            res.status(501).json({ error: "500 apiUpdateTeam" });
+            res.status(500).json({ error: "500 apiUpdateTeam" });
         }
     }
 
@@ -137,7 +140,6 @@ export default class TeamsController {
     static async apiKeepFirstX(req, res, next) {
         try {
             const response = await TeamsDAO.keepFirstX(parseInt(req.query.keepFirstX));
-            console.log("apiKeepFirstX > response=", response);
             res.status(200).json({ result: "success" });
         } catch (e) {
             console.log("apiKeepFirstX > e=", e);

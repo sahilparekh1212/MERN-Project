@@ -15,11 +15,23 @@ const UpdateTeam = ({ teamsList, getTeams }) => {
 
     const currentTeamId = windowHref.substring(windowHref.indexOf('update') + (('update').length + 1), windowHref.length);
 
-    const [currentTeam, setCurrentTeam] = useState({});
+    const [currentTeam, setCurrentTeam] = useState(search(currentTeamId, teamsList));
+    const [isCurrentTeamValid, setIsCurrentTeamValid] = useState(false);
+    const [showMessage, setShowMessage] = useState(false);
+    const [isTeamUpdated, setIsTeamUpdated] = useState(false);
 
     useEffect(() => {
         setCurrentTeam(search(currentTeamId, teamsList));
     }, []);
+
+    useEffect(() => {
+        if (currentTeam && currentTeam.emailId.includes('@') && currentTeam.emailId.includes('.') && (currentTeam.teamName.length < 8) && (currentTeam.teamName.length !== 0) && (currentTeam.gameName.length >= 4)) {
+            setIsCurrentTeamValid(true);
+        } else {
+            console.log('CurrentTeam is not Valid. currentTeam=', currentTeam);
+            setIsCurrentTeamValid(false);
+        }
+    }, [currentTeam]);
 
     const submitTeam = (e) => {
         e.preventDefault();
@@ -43,7 +55,13 @@ const UpdateTeam = ({ teamsList, getTeams }) => {
         })
             .then((res) => res.json()).then((data) => {
                 console.log('updateTeamFunc > data= ', data);
-                getTeams();
+                if (data.result && data.result === "success") {
+                    getTeams();
+                    setIsTeamUpdated(true);
+                } else {
+                    setIsTeamUpdated(false);
+                }
+                setShowMessage(true);
             })
     }
 
@@ -56,25 +74,25 @@ const UpdateTeam = ({ teamsList, getTeams }) => {
         <>
             <h4>Update Team</h4>
 
-            {/* {showMessage && (
+            {showMessage && (
                 <div>
                     {isTeamUpdated ? (
                         <div className="d-flex row justify-content-around text-success border border-success">
-                            <div ngIf="teamid" className="d-flex row justify-content-around text-success border border-success">
-                                <div className="col-11">Updated Team Successfully The team id is </div>
-                                <div className="col-1"><button className="text-success border-0"
-                                    click="showMessage = !showMessage">&times</button></div>
+                            <div className="d-flex row justify-content-around text-success border border-success">
+                                <div className="col-11">Updated Team Successfully The team id is {currentTeamId}</div>
+                                <div className="col-1"><button className="bg-transparent text-success border-0"
+                                    onClick={() => { setShowMessage(!showMessage) }}>&times;</button></div>
                             </div>
                         </div>
                     ) : (
                         <div className="d-flex row justify-content-around text-danger border border-danger">
-                            <div className="col-11">Something went wrong!</div>
-                            <div className="col-1"><button className="text-danger border-0"
-                                click="showMessage = !showMessage">&times;</button></div>
+                            <div className="col-11">Something went wrong! Please try again later.</div>
+                            <div className="col-1"><button className="bg-transparent text-danger border-0"
+                                onClick={() => { setShowMessage(!showMessage) }}>&times;</button></div>
                         </div>
                     )}
                 </div>
-            )} */}
+            )}
 
             {currentTeam && <form onSubmit={submitTeam}>
 
@@ -87,43 +105,28 @@ const UpdateTeam = ({ teamsList, getTeams }) => {
                     <label className="m-2" htmlFor="teamName">Team Name:&nbsp;</label>
                     <input className="col-6" type="text" name="teamName"
                         onChange={(e) => { setCurrentTeam({ ...currentTeam, teamName: e.target.value }) }} value={currentTeam.teamName} />
-                    <small className="text-danger mx-2">
-                        {/* <span ngIf="teamName?errors?'required'">
-                            required &emsp;
-                        </span>
-                        <span ngIf="teamName?errors?'maxlength'">
-                            maximum 8 characters can be added&emsp;
-                        </span> */}
-                    </small>
+                    {((currentTeam.teamName.length > 8) || (currentTeam.teamName.length === 0)) && <span className="small text-danger p-2">Length of 1 to 8 is allowed</span>}
                 </div>
 
                 <div>
                     <label className="m-2" htmlFor="gameName">Game Name:&nbsp;</label>
                     <input className="col-6" type="text" name="gameName"
                         onChange={(e) => { setCurrentTeam({ ...currentTeam, gameName: e.target.value }) }} value={currentTeam.gameName} />
-                    <small className="text-danger mx-2">
-                        {/* <span ngIf="gameName?errors?'required'">
-                            required &emsp;
-                        </span>
-                        <span ngIf="gameName?errors?'minlength'">
-                            minimum 4 characters are required &emsp;
-                        </span> */}
-                    </small>
+                    {(currentTeam.gameName.length < 4) && <span className="small text-danger p-2">Minimum length 4 is required</span>}
                 </div>
 
                 <div>
                     <label className="m-2" htmlFor="emailId">Email Id:&nbsp;</label>
                     <input className="col-6" type="text" name="emailId"
                         onChange={(e) => { setCurrentTeam({ ...currentTeam, emailId: e.target.value }) }} value={currentTeam.emailId} />
-                    <small className="text-danger mx-2">
-                        {/* <span ngIf="emailId?errors?'required'">
-                            required &emsp;
-                        </span> */}
-                    </small>
+                    {(!currentTeam.emailId.includes('@') || !currentTeam.emailId.includes('.')) && <span className="small text-danger p-2">Invalid email</span>}
                 </div>
 
-                <button type="submit" className="m-2 rounded">Submit</button>
-                <button onClick={resetForm} className="m-2 rounded text-info border-info">Reset</button>
+                {isCurrentTeamValid ? (<button type="submit"
+                    className="m-2 h6 border-1 rounded text-success border-success">Submit</button>) : (<button
+                        className="m-2 h6 border-1 rounded text-danger border-danger" disabled
+                    >Submit</button>)}
+                <button onClick={resetForm} className="m-2 h6 rounded text-primary border-primary">Reset</button>
             </form>
             }
         </>
