@@ -2,9 +2,9 @@ a {
     text-decoration: none;
 }
 
-#resetDiv{
-    position:fixed;
-    right:15px;
-    bottom:15px;
-    z-index:100;
+#resetDiv button {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    z-index: 100;
 }

@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import CustomNavigation from './components/customNavigation/customNavigation';
 import Home from './components/home/home';
@@ -9,7 +9,7 @@ import UpdateTeam from './components/updateTeam/updateTeam';
 function App() {
   const search = (id, inputArray) => {
     for (let i = 0; i < inputArray.length; i++) {
-      if (inputArray[i]._id == id) {
+      if (inputArray[i]._id === id) {
         return inputArray[i];
       }
     }
@@ -53,7 +53,7 @@ function App() {
         if (data.result && data.result === "success") {
           setDeletedTeam(search(team._id, teams));
           setIsTeamDeleted(true);
-          getTeams();
+          window.location.reload();
         } else {
           setIsTeamDeleted(false);
         }
@@ -75,7 +75,7 @@ function App() {
         console.log('deleteTeamFunc > data= ', data);
         if (data.result && data.result === "success") {
           setIsResetDone(true);
-          getTeams();
+          window.location.reload();
         } else {
           setIsResetDone(false);
         }
