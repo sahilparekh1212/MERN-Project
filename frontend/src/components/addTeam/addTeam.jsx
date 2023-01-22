@@ -30,7 +30,7 @@ const AddTeam = ({ teamsList, getTeams }) => {
     }, []);
 
     useEffect(() => {
-        if (team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.gameName.length >= 4)) {
+        if (team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.teamName.length !== 0) && (team.gameName.length >= 4)) {
             setIsTeamValid(true);
         } else {
             console.log('Team is not Valid. team=', team);
@@ -43,19 +43,8 @@ const AddTeam = ({ teamsList, getTeams }) => {
         if (team.emailId.includes('@') && team.emailId.includes('.') && (team.teamName.length < 8) && (team.gameName.length >= 4)) {
             addTeam();
         } else {
-            setIsTeamAdded(false);
             console.log("form has validation error => team = ", team);
         }
-
-        // const res = await fetch('URL', team);
-        // const resJSON = await res.json();
-
-        // if (res) {
-        //     setShowMessage(true);
-        // } else {
-        //     console.log('submitTeam() -> Something went wrong')
-        // }
-        setShowMessage(true);
     }
 
     const addTeam = () => {
@@ -75,9 +64,14 @@ const AddTeam = ({ teamsList, getTeams }) => {
         })
             .then((res) => res.json()).then((data) => {
                 console.log('addTeamFunc > data= ', data);
-                setTeam({ ...team, id: data.id });
-                getTeams();
-                setIsTeamAdded(true);
+                if (data.result && data.result === "success") {
+                    setTeam({ ...team, id: data.id });
+                    getTeams();
+                    setIsTeamAdded(true);
+                } else {
+                    setIsTeamAdded(false);
+                }
+                setShowMessage(true);
             });
     }
 
@@ -86,13 +80,13 @@ const AddTeam = ({ teamsList, getTeams }) => {
         <>
             {showMessage && (<>{(isTeamAdded) ? (
                 <div className="d-flex row justify-content-around text-success border border-success">
-                    <div className="col-11">Added Team Successfully Team id is ${team.id}</div>
+                    <div className="col-11">Added Team Successfully with id {team.id}</div>
                     <div className="col-1"><button className="bg-transparent text-success border-0"
                         onClick={() => { setShowMessage(!showMessage) }}>&times;</button></div>
                 </div>
             ) : (
                 <div className="d-flex row justify-content-around text-danger border border-danger">
-                    <div className="col-11">Something went wrong!</div>
+                    <div className="col-11">Something went wrong! Please try again later.</div>
                     <div className="col-1"><button className="bg-transparent text-danger border-0"
                         onClick={() => { setShowMessage(!showMessage) }}>&times;</button></div>
                 </div>
@@ -121,7 +115,7 @@ const AddTeam = ({ teamsList, getTeams }) => {
                     <label className="m-2" htmlFor="teamName">teamName</label>
                     <input className="col-6" type="text" name="teamName" required
                         onChange={(e) => { setTeam({ ...team, teamName: e.target.value }) }} value={team.teamName}></input>
-                    {(team.teamName.length > 8) && <span className="small text-danger p-2">Maximum length 8 is allowed</span>}
+                    {((team.teamName.length > 8) || (team.teamName.length === 0)) && <span className="small text-danger p-2">Length of 1 to 8 is allowed</span>}
                 </div>
 
                 <div>
@@ -138,9 +132,8 @@ const AddTeam = ({ teamsList, getTeams }) => {
                 </div>
 
                 {isTeamValid ? (<button type="submit"
-                    className="m-2 border rounded text-success border-success">Submit</button>) : (<button
-                        className="m-2 border rounded text-danger border-danger" disabled
-                    >Submit</button>)}
+                    className="m-2 h6 border rounded text-success border-success">Submit</button>) : (<button
+                        className="m-2 h6 border rounded text-danger border-danger" disabled>Submit</button>)}
 
             </form>
         </>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './home.css';
 
-function Home({ teamsList, getTeams, deleteTeam }) {
+function Home({ teamsList, deleteTeam, keepFirstX }) {
 
     const [teams, setTeams] = useState([]);
 
@@ -18,28 +18,9 @@ function Home({ teamsList, getTeams, deleteTeam }) {
     const deleteTeamFunc = (team) => {
         if (window.confirm(`Want to delete Team with id ${team._id} ?`)) {
             deleteTeam(team);
-            // alert('deleted successfully');
         } else {
             alert('did not delete');
         }
-    }
-
-    const keepFirstX = () => {
-        alert('reset > keepFirst');
-        let keepTotalTeams = prompt("How many teams do you want to keep?");
-
-        fetch(`http://localhost:5000/api/v1/teams?keepFirstX=${parseInt(keepTotalTeams)}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((res) => res.json()).then((data) => {
-                console.log('deleteTeamFunc > data= ', data);
-                // setTeams(data.teams);
-                getTeams();
-            });
     }
 
     const navigateConst = useNavigate();

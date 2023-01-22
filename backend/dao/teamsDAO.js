@@ -11,7 +11,7 @@ export default class TeamsDAO {
         try {
             teams = await conn.db(process.env.DB_TEMP).collection("teams");
         } catch (err) {
-            console.log(`Error in retrieving data from DB_TEMP- ${err}`);
+            console.log("Error in retrieving data from DB_TEMP > err=", err);
         }
     }
 
