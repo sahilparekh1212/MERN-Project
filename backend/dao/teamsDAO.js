@@ -147,20 +147,30 @@ export default class TeamsDAO {
     }
 
     static async keepFirstX(keep) {
-        let refTime = new Date().getMilliseconds();
+        // let refTime = new Date().getMilliseconds();
+        let response;
         try {
-            this.getTeams().then((res) => {
-                let copyArr = res.teamsList;
-                copyArr.forEach(async (element, index) => {
-                    var response;
-                    if (index >= parseInt(keep)) {
-                        response = await teams.deleteOne({
-                            _id: element._id
-                        });
-                        console.log("Deleted index=", index, "response=", response, "timeTaken=", (new Date().getMilliseconds() - refTime));
-                    }
-                });
-            });
+            let proA = new Promise(async (resolve) => {
+                this.getTeams().then((res) => {
+                    let copyArr = res.teamsList;
+                    copyArr.forEach(async (element, index) => {
+                        var response;
+                        if (index >= parseInt(keep)) {
+                            response = await teams.deleteOne({
+                                _id: element._id
+                            });
+                            // console.log("Deleted index=", index, "response=", response, "timeTaken=", (new Date().getMilliseconds() - refTime));
+                        }
+                    })
+                }).then(async () => {
+                    resolve(await this.getTeams());
+                })
+            })
+            proA.then((res) => {
+                console.log("after proA resolved > totalNumTeams=", res.totalNumTeams);
+                response = res;
+                return res;
+            })
         } catch (e) {
             console.log("Error in keepFirstX=", e);
             return { error: e };
