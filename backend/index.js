@@ -8,9 +8,6 @@ dotenv.config();
 const mongoClient = mongodb.MongoClient;
 const port = process.env.PORT || 8000;
 
-const cors = require(cors);
-app.use(cors());
-
 mongoClient.connect(
     process.env.DB_URI,
     {
